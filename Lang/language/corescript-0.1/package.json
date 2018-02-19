@@ -1,0 +1,35 @@
+{
+    "name": "corescript-lang",
+    "displayName": "corescript-lang",
+    "description": "",
+    "version": "0.0.1",
+    "publisher": "jssharp",
+    "engines": {
+        "vscode": "^1.19.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "corescript-lang",
+                "aliases": [
+                    "CoreScript",
+                    "corescript"
+                ],
+                "extensions": [
+                    ".cor"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "corescript-lang",
+                "scopeName": "source.corescript",
+                "path": "./syntaxes/corescript-lang.tmLanguage.json"
+            }
+        ]
+    }
+}

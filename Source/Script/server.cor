@@ -1,0 +1,17 @@
+let http = import 'http';
+
+let server = http.server({
+    port: 8080
+});
+
+function urlPath(template, path) {
+    if (string.test(path, template)) return path;
+    return none;
+};
+
+server(receive (req, res) {
+    match (req.path) {
+        case ("/") res.send("Hello, World!");
+        case (urlPath("/\w+", req.path)) (res.send("Hello, " + name));
+    }
+});

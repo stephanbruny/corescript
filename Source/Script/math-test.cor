@@ -1,0 +1,23 @@
+let Unit = import "unit.cor";
+
+Unit.describe("Math Runtime Test\n", array(
+    Unit.it("should round a double to nearest integer", fun() {
+        assert(Math.round(13.756) == 14);
+        assert(Math.round(7.4) == 7);
+    }),
+    Unit.it("should floor a double", fun() {
+        assert(Math.floor(13.756) == 13);
+    }),
+
+    Unit.it("should ceil a double", fun() {
+        assert(Math.ceil(13.756) == 14);
+    }),
+
+    Unit.it("should pow", fun () {
+        assert(Math.pow(2, 16) == 65536);
+    }),
+
+    Unit.it("should take square root", fun () {
+        assert(Math.sqrt(256) == 16);
+    }),
+));

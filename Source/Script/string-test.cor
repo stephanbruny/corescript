@@ -1,0 +1,52 @@
+let Unit = import "unit.cor";
+
+Unit.describe("String Runtime Test\n", array(
+    Unit.it("should upcase a string", fun() {
+        assert(string.toUpperCase('foobar') == "FOOBAR");
+    }),
+
+    Unit.it("should low-case a string", fun() {
+        assert(string.toLowerCase('A TINY LITTLE STRinG') == "a tiny little string");
+    }),
+
+    Unit.it("should test a string on pattern match", fun() {
+        assert(string.test("a tiny little string", "tiny"));
+        assert(string.test("a tiny little string", "foo") == false );
+        assert(string.test("a tiny little 123 string", "[0-9]+"));
+        assert(string.test("a tiny little string", "[0-9]+") == false);
+        assert(string.test("a tiny little 1 string", "[0-9]{2,}") == false);
+    }),
+
+    Unit.it("should test a string on pattern match, ignoring case", fun() {
+        assert(string.test("a TiNy liTtLe string", "tiny", "i") );
+    }),
+
+    Unit.it("should get a sub string", fun() {
+        assert(string.substr("foo bar foobar", 4, 3) == "bar")
+    }),
+
+    Unit.it("should get length of string", fun() {
+        assert(string.length("foobar foobar") == 13)
+    }),
+
+    Unit.it("should replace", fun() {
+        assert(string.replace("foo bar bar", "foo", "bar") == "bar bar bar");
+        assert(string.replace("foo bar bar", "bar", "foo") == "foo foo foo");
+    }),
+
+    Unit.it("(runtime) parse integer from string", fun() {
+        assert(parseInt("123") == 123);
+    }),
+
+    Unit.it("should get string from integer", fun() {
+        assert(toString(123) == "123");
+    }),
+
+    Unit.it("should get string from double", fun() {
+        assert(string.replace(toString(12.34), "0", "") == "12.34");
+    }),
+
+    Unit.it("(runtime) parse double from string", fun() {
+        assert(parseDouble("42.66") == 42.66);
+    }),
+));

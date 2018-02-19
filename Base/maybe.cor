@@ -1,0 +1,54 @@
+let maybe = {
+    value: none,
+    isSome: false,
+    isNone: false,
+    map: fun(applicative) {
+      throw "virtual function - not implemented";
+    },
+    bind: fun(applicative) {
+        throw "virtual function - not implemented";
+    },
+    get: fun() { 
+        throw "virtual function - not implemented";
+    }
+    just: fun(val) {
+        throw "virtual function - not implemented";
+    }
+
+}
+
+function Maybe(val) {
+    function Some(value) {
+        return extend maybe {
+            value: value,
+            isSome: true,
+            isNone: false,
+            map: fun(applicative) {
+                return Maybe(applicative(this.value))
+            },
+            bind: fun(applicative) {
+                return applicative(this.value);
+            },
+            just: fun() {},
+            get: fun() { return this.value; }
+        }
+    }
+
+    function None() {
+        return extend maybe {
+            value: none,
+            isSome: false,
+            isNone: true,
+            map: fun(applicative) {
+                throw "Cannot map None";
+            },
+            bind: fun(applicative) {
+                throw "Cannot bind None";
+            },
+            just: fun(val) { return val; }
+        }
+    }
+    if (val != none) return Some(val); else return None();
+};
+
+export Maybe;

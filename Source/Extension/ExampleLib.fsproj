@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Dll</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ExampleLib.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\corescript.fsproj" />
+  </ItemGroup>
+
+</Project>

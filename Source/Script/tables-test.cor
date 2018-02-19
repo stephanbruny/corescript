@@ -1,0 +1,56 @@
+let Unit = import "unit.cor";
+
+Unit.describe("Tables Runtime Test\n", array(
+    Unit.it("should get table keys as array", fun() {
+        let tab = { "foo": 123, "bar": 456, "z": "zett" };
+        let keys = table.keys(tab);
+        assert(keys.find(fun (k) { k == "foo"; }));
+        assert(keys.find(fun (k) { k == "bar"; }));
+        assert(keys.find(fun (k) { k == "z"; }));
+    }),
+
+    Unit.it("should pick from table", fun() {
+        let tab = { "foo": 123, "bar": 456, "z": "zett" };
+        match (table.pick(tab, "foo", "bar")) {
+            case ({ "foo": 123, "bar": 456 }) true;
+            default { throw "pick failed" };
+        }
+    }),
+
+    Unit.it("should omit table keys", fun() {
+        let tab = { "foo": 123, "bar": 456, "z": "zett" };
+        match (table.omit(tab, "bar")) {
+            case ({ "foo": 123, "z": "zett"}) true;
+            default { throw "omit failed" };
+        }
+    }),
+
+    Unit.it("should get only values from table", fun() {
+        let arr = array(1, 2, 3, 4);
+        match (table.values(arr)) {
+            case ({ length: 4, 0: 1, 1: 2, 2: 3, 3: 4 }) true;
+            default { throw "values failed" };
+        }
+    }),
+
+    Unit.it("should map table", fun() {
+        let list = table.values(array(1, 2, 3, 4));
+        let nums = table.omit(list, "length");
+        let mult = table.map(nums, fun(k, v) { v * 2; });
+        match (mult) {
+            case ({ 0: 2, 1: 4, 2: 6, 3: 8 }) true;
+            default { throw "values failed" };
+        }
+    }),
+
+    Unit.it("should check table contains value", fun() {
+        let tab = { foo: 'foobar', bar: 'something', x: 42 };
+        assert(table.contains(tab, 'foobar'));
+        assert(false == table.contains(tab, 'blob'));
+    }),
+
+    Unit.it("should get size of table", fun() {
+        let tab = { foo: 'foobar', bar: 'something', x: 42 };
+        assert(3 == table.size(tab));
+    }),
+));

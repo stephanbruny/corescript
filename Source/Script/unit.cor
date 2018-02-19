@@ -1,0 +1,37 @@
+function createTest(description, testCases) {
+    var errors = array();
+
+    print();
+    print(description);
+    print();
+    testCases.forEach(async fun (key, testCase) {
+        try {
+            await testCase.test();
+            print ("    ", testCase.name, "........passed");
+        } catch err {
+            errors <- errors.append(err);
+            print ("    ", testCase.name, "........failed");
+            print ("        ", err);
+        }
+    });
+
+    if (errors.length == 0) {
+        print("All tests passed.");
+        return 0;
+    }
+
+    print(errors.length, " errors in ", description);
+    return 1;
+}
+
+function it(text, fn) {
+    return {
+        name: text,
+        test: fn
+    };
+}
+
+export {
+    describe: createTest,
+    it: it
+};

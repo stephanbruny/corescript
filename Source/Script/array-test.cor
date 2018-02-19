@@ -1,0 +1,107 @@
+let Unit = import "unit.cor";
+
+let list = array(1, 2, 3, 4);
+
+Unit.describe("Array Runtime Test\n", array(
+    Unit.it("should create an array", fun() {
+
+        assert(list.length == 4);
+        assert(list[0] == 1);
+        assert(list[1] == 2);
+        assert(list[2] == 3);
+        assert(list[3] == 4);
+
+        assert(list.head() == 1);        
+    }),
+    Unit.it("should get array tail", fun() {
+        match (list.tail()) {
+            case (array(2, 3, 4)) true;
+            default { throw "Test array.tail failed"; };
+        };
+    }),
+
+    Unit.it("should reverse an array", fun () {
+        match (list.revert()) {
+            case (array(4, 3, 2, 1)) true;
+            default { throw "Test array.revert failed"; };
+        }
+    }),
+
+    Unit.it("should get none from invalid index", fun () {
+        match (list[1000]) {
+            case (none) true;
+            default { throw "Test for invalid index failed"; };
+        }
+    }),
+
+    Unit.it("should concatinate two arrays", fun () {
+        match (array(1, 2, 3, 4, 5, 6)) {
+            case (array(1, 2, 3).concat(array(4, 5, 6))) true;
+            default { throw "Test array.concat failed"; };
+        }
+    }),
+
+    Unit.it("should divide an array", fun () {
+        match (array(1, 2, 3, 4, 5, 6, 7, 8, 9).divide(3)) {
+            case ( array(array(1, 2, 3), array(4, 5, 6), array(7, 8, 9)) ) true;
+            default { throw "Test array.divide failed"; };
+        }
+    }),
+
+    Unit.it("should map an array", fun () {
+        match (array(2, 4, 6, 8)) {
+            case ( array(1, 2, 3, 4).map(fun (i, x) { return x * 2; }) ) true;
+            default { throw "map failed. Expected 2, 4, 6, 8"; };
+        }
+    }),
+
+    Unit.it("should filter an array", fun () {
+        match(array(2, 4)) {
+            case ( array(1, 2, 3, 4).filter(fun(x) { return x % 2 == 0; }) ) true;
+            default { throw "filter failed" }
+        }
+    }),
+
+    Unit.it("should find an element", fun () {
+        let arr = array({ name: "foo" }, { name: "bar", correct: true }, { name: "blob" });
+        let item = arr.find(fun(x) { x.name == "bar"; });
+        assert(item);
+        assert(item.name == "bar");
+        assert(item.correct);
+    }),
+
+    Unit.it("should skip some array items", fun () {
+        match(array(3, 4)) {
+            case ( array(1, 2, 3, 4).skip(2) ) true;
+            default { throw "skip failed" }
+        }
+    }),
+
+    Unit.it("should append some array items", fun () {
+        match(array(1, 2, 3, 4)) {
+            case ( array(1, 2).append(3, 4) ) true;
+            default { throw "append failed" }
+        }
+    }),
+
+    Unit.it("should prepend some array items", fun () {
+        match(array(1, 2, 3, 4)) {
+            case ( array(3, 4).prepend(1, 2) ) true;
+            default { throw "append failed" }
+        }
+    }),
+
+    Unit.it("should sort an array", fun () {
+        let arr = array(10, 8, 32, 7, 42, 0, 3, 999);
+        let sorted = arr.sort(fun(a, b) {
+            if (a < b) return -1;
+            if (a > b) return 1;
+            return 0;
+        });
+        var current = sorted.head();
+        sorted.tail().forEach(fun(i, next) {
+            assert(current <= next);
+            current <- next;
+        });
+    }),
+));

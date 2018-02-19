@@ -1,0 +1,49 @@
+let fs = import "filesystem";
+let http = import "http";
+
+let corePng = fs.readBinary(process.dir + "\Script\corescript.png");
+
+function urlPath(template, path) {
+    if (string.test(path, template)) return path;
+    return none;
+};
+
+let getHandler = agent {
+    receive request: fun(req, res) {
+        match (req.path) {
+            case (http.route("/hello/:name", req.path)) as route {
+                let result = "Hello, " + route.name;
+                res.sendText(result);
+            };
+            case (http.route("/hello/:name/:what", req.path)) as route {
+                let result = "hey there, " + route.name + "! Say: " + route.what;
+                res.sendText(result);
+            };
+            case ("/foo") { res.setHeader("Content-Type", "image/png"); res.send(corePng); };
+            default { res.sendText("Hello, World!"); };
+        }
+    }
+};
+
+let postHandler = agent {
+    receive request: fun(req, res) {
+        res.sendText(req.inputStream.readText());
+    }
+}
+
+let host = "http://localhost:1337/";
+
+http.createServer(host, fun (req, res) {
+    let handler =
+        match (req.method) {
+            case ("GET") ref getHandler;
+            case ("POST") ref postHandler;
+        };
+    send handler request (req, res);
+    
+});
+
+print("Server running: ", host);
+while(true) {
+    wait(1000);
+}

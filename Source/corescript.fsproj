@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Lexer.fs" />
+    <Compile Include="Tokens.fs" />
+    <Compile Include="Expressions.fs" />
+    <Compile Include="Parser.fs" />
+    <Compile Include="Backend/Interpreter/Environment.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/Math.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/Array.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/String.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/Tables.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/Filesystem.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/Http.fs" />
+    <Compile Include="Backend/Interpreter/Runtime.fs" />
+    <Compile Include="Backend/Interpreter.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>

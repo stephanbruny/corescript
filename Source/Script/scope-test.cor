@@ -1,0 +1,17 @@
+let Unit = import "unit.cor";
+
+Unit.describe("Scope Test", array(
+    Unit.it("should track correct scope within a function", fun() {
+        let value = 3;
+        function foo() {
+            let value = value + value;
+            return value;
+        }
+        assert(9 == value + foo())
+    }),
+
+    Unit.it('should pipe a value into a lambda', fun () {
+        let foo = 3 |> (fun (x) x * x);
+        assert(9 == foo);
+    });
+));

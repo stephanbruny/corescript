@@ -1,0 +1,20 @@
+let tests = array(
+    fun () import "scope-test.cor",
+    fun () import "array-test.cor",
+    fun () import "string-test.cor",
+    fun () import "math-test.cor",
+    fun () import "tables-test.cor"
+);
+
+var errors = 0;
+tests.forEach(fun (i, test) {
+    errors <- errors + test();
+});
+
+if (errors > 0) {
+    print(errors, " errors found");
+    return errors;
+}
+
+print("Test suite successful");
+return 0;

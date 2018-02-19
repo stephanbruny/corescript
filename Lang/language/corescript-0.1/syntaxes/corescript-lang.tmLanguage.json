@@ -1,0 +1,456 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "CoreScript",
+	"patterns": [
+		{
+			"include": "#general"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.corescript",
+					"match": "\\b(do|repeat|match|default|with|try|catch|as|throw|async|await|send|receive|let|break|extend|return|unit|if|else)\\b"
+				},
+				{
+					"name": "keyword.other.corescript",
+					"match": "\\b(export|import)\\b"
+                },
+                {
+					"name": "variable.language.corescript",
+					"match": "\\b(this|operator)\\b"
+                },
+                {
+					"name": "storage.type.corescript",
+					"match": "\\b(var|agent|ref|mutable)\\b"
+                }
+			]
+        },
+        "linecomment": {
+            "patterns": [{
+                "name": "comment.line.double-dash.corescript",
+                "match": "(\\/\\/).*$\n?",
+                "captures": {
+                    "1": {
+                        "name": "punctuation.definition.comment.corescript"
+                    }
+                }
+            }]
+        },
+        "blockcomment": {
+            "patterns": [{
+                "name": "comment.block.corescript",
+                "begin": "\\/\\*",
+                "beginCaptures": {
+                    "0": {
+                        "name": "punctuation.definition.comment.corescript"
+                    }
+                },
+                "end": "\\*\\/",
+                "endCaptures": {
+                    "0": {
+                        "name": "punctuation.definition.comment.corescript"
+                    }
+                }
+            }]
+        },
+		"constant": {
+			"patterns": [
+                {
+                    "name": "constant.language.corescript",
+                    "match": "\\b(some|none|false|true)\\b"
+                }
+            ]
+		},
+		"number": {
+			"patterns": [{
+				"name": "constant.numeric.corescript",
+				"match": "(?<![\\d.])\\s0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?"
+			}]
+        },
+        "template-substitution-element": {
+			"name": "meta.template.expression.corescript",
+			"begin": "\\$\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.template-expression.begin.corescript"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.template-expression.end.corescript"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#general"
+				}
+			],
+			"contentName": "meta.embedded.line.corescript"
+        },
+        "templatestring": {
+            "name": "string.interpolated.corescript",
+            "begin": "(`)",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.template.begin.corescript"
+                }
+            },
+            "end": "`",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.template.end.corescript"
+                }
+            },
+            "patterns": [
+                { "include": "#template-substitution-element" }
+            ]
+        },
+		"singlequotestring": {
+            "name": "string.quoted.single.corescript",
+            "begin": "'",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.corescript"
+                }
+            },
+            "end": "'",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.corescript"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "\\\\(\\d{1,3}|.)",
+                    "name": "constant.character.escape.corescript"
+                }
+            ]
+        },
+        "doublequotestring": {
+            "name": "string.quoted.double.corescript",
+            "begin": "\"",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.corescript"
+                }
+            },
+            "end": "\"",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.corescript"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "\\\\(\\d{1,3}|.)",
+                    "name": "constant.character.escape.corescript"
+                }
+            ]
+		},
+		"strings": {
+			"patterns": [
+				{ "include": "#doublequotestring" },
+                { "include": "#singlequotestring" },
+                { "include": "#templatestring" }
+			]
+		},
+		"arrayindex":{
+            "name": "meta.index.corescript",
+            "begin": "\\[",
+            "end": "\\]",
+            "beginCaptures": {
+                "0": {
+                    "name": "markup.bold.corescript"
+                }
+            },
+            "endCaptures": {
+                "0": {
+                    "name": "markup.bold.corescript"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#general"
+                }
+            ]
+		},
+		"function": {
+            "name": "meta.function.corescript",
+            "begin": "\\b(function)(\\s+(((\\w(\\w|\\d)*)(\\.|:))*(\\w(\\w|\\d)*)))?\\s*(\\()\\s*((\\.\\.\\.|\\w(\\w|\\d)*)(,\\s*(\\.\\.\\.|\\w(\\w|\\d)*))*)?\\s*(\\))\\s*\\{",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.corescript"
+                },
+                "3": {
+                    "name": "entity.name.function.corescript"
+                },
+                "11": {
+                    "name": "variable.parameter.function.corescript"
+                }
+            },
+            "end": "}",
+            "patterns": [
+                {
+                    "include": "#general"
+                }
+            ]
+        },
+        "function-declaration": {
+			"name": "meta.function.corescript",
+			"begin": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(function\\b)(?:\\s*(\\*))?(?:(?:\\s+|(?<=\\*))([_$[:alpha:]][_$[:alnum:]]*))?\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.function.corescript"
+				},
+				"2": {
+					"name": "keyword.generator.asterisk.corescript"
+				},
+				"3": {
+					"name": "meta.definition.function.corescript entity.name.function.corescript"
+				}
+			},
+			"end": "(?=$|^|;)|(?<=\\})",
+			"patterns": [
+				{
+					"include": "#general"
+				}
+			]
+        },
+		"lambda": {
+            "name": "meta.function.corescript",
+            "begin": "\\b(fun|receive)(\\s+(((\\w(\\w|\\d)*)(\\.|:))*(\\w(\\w|\\d)*)))?\\s*(\\()\\s*((\\.\\.\\.|\\w(\\w|\\d)*)(,\\s*(\\.\\.\\.|\\w(\\w|\\d)*))*)?\\s*(\\))\\s*\\{",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.corescript"
+                },
+                "3": {
+                    "name": "entity.name.function.corescript"
+                },
+                "11": {
+                    "name": "variable.parameter.function.corescript"
+                }
+            },
+            "end": "}",
+            "patterns": [
+                {
+                    "include": "#general"
+                }
+            ]
+        },
+        "lambda-arrow": {
+            "patterns": [{
+                "match": "\\b(fun)(\\s+(((\\w(\\w|\\d)*)(\\.|:))*(\\w(\\w|\\d)*)))?\\s*(\\()\\s*((\\.\\.\\.|\\w(\\w|\\d)*)(,\\s*(\\.\\.\\.|\\w(\\w|\\d)*))*)?",
+                "captures": {
+                    "1": {
+                        "name": "keyword.control.corescript"
+                    },
+                    "3": {
+                        "name": "entity.name.function.corescript"
+                    },
+                    "11": {
+                        "name": "variable.parameter.function.corescript"
+                    }
+                }
+            }]
+        },
+        "functioncall": {
+            "patterns": [{
+                "begin": "(\\w(\\w|\\d)*\\.)*?(\\w(\\w|\\d)*)\\s*?\\(",
+                "end": "\\)",
+                "captures": {
+                    "1": {
+                        "name": "entity.name.type.corescript"
+                    },
+                    "2": {
+                        "name": "entity.name.type.corescript"
+                    },
+                    "3": {
+                         "name": "entity.name.function.corescript"
+                    }
+                },
+                "patterns": [
+                    {
+                        "include": "#general"
+                    }
+                ]
+            }]
+        },
+        "unbox": {
+            "patterns": [{
+                "match": "\\b(as)\\s+(\\w(\\w|\\d)*)\\b",
+                "captures": {
+                    "1": { "name": "keyword.control.corescript" },
+                    "2": { "name": "entity.name.type.corescript" }
+                }
+            }]
+        },
+        "tablevalues": {
+            "patterns": [
+                { "include": "#number" },
+                { "include": "#strings" },
+                { "include": "#tabledecl" },
+                { "include": "#lambda" },
+                { "include": "#linecomment" },
+                { "include": "#blockcomment" },
+                { "include": "#constant" }
+            ]
+        },
+        "tableItem": {
+            "patterns": [
+                {
+                    "match": "([a-zA-Z0-9_-]+)\\s*?:\\s*?(async\\s+)?(fun)\\b",
+                    "captures": {
+                        "1": { "name": "entity.name.function.corescript" },
+                        "2": { "name": "storage.type.function.corescript" },
+                        "3": { "name": "storage.type.function.corescript" }
+                    }
+                },
+                {
+                    "match": "([a-zA-Z0-9_-]+)\\s*?:",
+                    "name": "entity.other.attribute-name.corescript"
+                },
+                {
+                    "match": "(\\@[a-zA-Z0-9_-]+)\\s*?:",
+                    "name": "support.constant.corescript"
+                },
+                {
+                    "match": "(\\b(mutable)\\b)\\s+([a-zA-Z0-9_-]+)\\s*?:",
+                    "captures": {
+                        "1": { "name": "storage.type.mutable.corescript" },
+                        "2": { "name": "storage.type.mutable.corescript" },
+                        "3": { "name": "entity.name.type.corescript" }
+                    }
+                }
+            ]
+          },
+        "tabledecl":{
+            "name": "meta.tabledecl.corescript",
+            "begin": "{",
+            "end": "}",
+            "patterns": [
+                { "include": "#tableItem" },
+                { "include": "#lambda" },
+                { "include": "#general" }
+            ]
+        },
+        "controlblock": {
+            "name": "meta.controlblock.corescript",
+            "begin": "\\b(if|else|foreach|while|repeat|break|match|case|default)\\s*?\\(",
+            "end": "\\)",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.corescript"
+                }
+            },
+            "endCaptures": {
+				"0": {
+					"name": "meta.brace.round.corescript"
+				}
+            },
+            "patterns": [
+                { "include": "#general" }
+            ]
+        },
+        "operator": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.corescript",
+                    "match": "(\\b(and|or|not)\\b)|([\\?|\\=|\\!|\\*|\\/|\\%|\\&|\\||\\+|\\-|\\~|\\<|\\>]+)"
+                }
+            ]
+        },
+        "enum": {
+            "patterns": [{
+                "match": "\\=\\s*\\|((\\s*\\w(\\w|\\d)*\\,?)+)\\s*\\|",
+                "captures": {
+                    "1": { "name": "storage.type.corescript" }
+                }
+            }]
+        },
+        "variable-declare": {
+            "patterns": [
+                {
+                    "match": "(\\b(let)\\b)\\s*(\\w(\\w|\\d)*)",
+                    "captures": {
+                        "1": { "name": "storage.type.corescript" },
+                        "2": { "name": "variable.other.corescript" }
+                    }
+                },
+                {
+                    "match": "(\\b(var)\\b)\\s*(\\w(\\w|\\d)*)",
+                    "captures": {
+                        "1": { "name": "storage.type.corescript" },
+                        "3": { "name": "entity.name.type.corescript" }
+                    }
+                }
+            ]
+        },
+        "variable-init": {
+            "patterns": [{
+                "match": "(variable-declare)\\s*\\=\\s*(general)\\s*;"
+            }]
+        },
+        "property": {
+            "patterns": [
+                {
+                    "match": "\\b(this)\\s*?\\.\\s*?(\\w(\\w|\\d)*)",
+                    "captures": {
+                        "1": { "name": "storage.type.corescript" },
+                        "2": { "name": "entity.name.selector.corescript" }
+                    }
+                },
+                {
+                    "match": "\\b(this)\\s*?\\.\\s*?(\\@\\w(\\w|\\d)*)",
+                    "captures": {
+                        "1": { "name": "storage.type.corescript" },
+                        "2": { "name": "support.constant.corescript" }
+                    }
+                }
+            ]
+        },
+        "runtime": {
+            "patterns": [
+                {
+                    "name": "support.function.corescript",
+                    "match": "\\b(array|wait|waitAsync|print|typeof|assert)\\b"
+                },
+                {
+                    "name": "support.type.corescript",
+                    "match": "\\b(none|unit)\\b"
+                },
+                {
+                    "name": "support.class.corescript",
+                    "match": "\\b(Tables)\\b"
+                }
+            ]
+        },
+		"general": {
+			"patterns": [
+                { "include": "#linecomment" },
+                { "include": "#blockcomment" },
+				{ "include": "#constant" },
+				{ "include": "#strings" },
+				{ "include": "#number" },
+                { "include": "#function-declaration" },
+                { "include": "#lambda-arrow" },
+                { "include": "#lambda" },
+                { "include": "#tabledecl" },
+                { "include": "#controlblock" },
+                { "include": "#unbox" },
+                { "include": "#operator" },
+                { "include": "#enum" },
+                { "include": "#variable-init" },
+                { "include": "#variable-declare" },
+                { "include": "#property" },
+				{ "include": "#keywords" },
+                { "include": "#runtime" },
+                { "include": "#arrayindex" },
+                { "include": "#functioncall" }
+			]
+		}
+	},
+	"scopeName": "source.corescript"
+}
