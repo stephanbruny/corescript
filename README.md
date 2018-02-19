@@ -7,6 +7,10 @@ CoreScript is written in F# (www.fsharp.org).
 
 ## [Documentation](./Docs/index.md) (in progress)
 
+## Examples
+
+see [Script-Folder](./Source/Script)
+
 ## Compilation
 
 As easy as it can be with .net core:  
