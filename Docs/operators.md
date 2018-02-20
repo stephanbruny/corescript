@@ -20,7 +20,7 @@
 | `x % y`      | modulo              | performs [euclidean devision](https://en.wikipedia.org/wiki/Euclidean_division)
 | `x \|> F(x)` | pipe                | Pipes a value into a function(e.g. `let x = 3 \|> fun(n) n * n; // 9`)
 | `x && y`     | logical AND         | performs logical AND (casting to boolean)
-| `x || y`     | logical OR          | performs logical OR (casting to boolean)
+| `x \|\| y`   | logical OR          | performs logical OR (casting to boolean)
 
 ### Comparison
 
