@@ -159,7 +159,7 @@ module Array =
                 createSub skipped
             | _ -> failwith "[Array.skip] integer expected"
 
-        let revertArray (values : Value list) (_ : NativeFunction<Value>) =
+        let reverseArray (values : Value list) (_ : NativeFunction<Value>) =
             let result = values |> List.rev
             createSub result
 
@@ -208,7 +208,7 @@ module Array =
                 (Key "divide", NativeFunVal (divideArray call.arguments));
                 (Key "skip", NativeFunVal (skipArray call.arguments));
                 (Key "sort", NativeFunVal (sortArray call.arguments));
-                (Key "revert", NativeFunVal (revertArray call.arguments));
+                (Key "reverse", NativeFunVal (reverseArray call.arguments));
                 (Key "find", NativeFunVal (findArray call.arguments));
                 (Key "filter", NativeFunVal (filterArray call.arguments));
                 (Key "append", NativeFunVal (appendArray call.arguments));

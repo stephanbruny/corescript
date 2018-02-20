@@ -1,4 +1,4 @@
-[<< Previous](./types.md) | [Index](./index.md) | [Next >>](./functions.md)
+[<< Previous](./types.md) | [Index](./index.md) | [Next >>](./tables.md)
 
 # Variables
 

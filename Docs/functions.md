@@ -1,4 +1,4 @@
-[<< Previous](./variables.md) | [Index](./index.md) | [Next >>](./operators.md)
+[<< Previous](./tables.md) | [Index](./index.md) | [Next >>](./operators.md)
 
 # Functions
 

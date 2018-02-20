@@ -2,6 +2,7 @@ namespace CoreScript.Interpreter
 
 open System
 open System.IO
+open System.Text
 open System.Reflection
 open CoreScript
 open CoreScript.Interpreter.Environment
@@ -9,6 +10,14 @@ open CoreScript.Interpreter.Environment
 module Runtime =
 
     let findInnerOrOuter scope name = joinMap scope.local scope.outer |> Map.tryFind name
+
+    let unescapeString (str : string) =
+        let builder = StringBuilder(str)
+        builder
+            .Replace("\\n", "\n") 
+            .Replace("\\t", "\t")
+            .Replace("\\r", "\r")
+            .ToString()
 
     let rec getString (call : NativeFunction<Value>) v =
         let rec tableToString (table : Map<Environment.JTableKey, Value>) depth =
@@ -31,7 +40,7 @@ module Runtime =
             let propSep = ", \n"
             sprintf "{\n%s\n%s}" (strings |> String.concat propSep ) endPrefix
         match v with
-        | Environment.StringVal s -> s
+        | Environment.StringVal s -> unescapeString s
         | Environment.IntVal i -> sprintf "%i" i
         | Environment.DoubleVal d -> sprintf "%f" d
         | Environment.BoolVal b -> b.ToString()

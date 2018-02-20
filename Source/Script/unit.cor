@@ -1,22 +1,21 @@
 function createTest(description, testCases) {
     var errors = array();
 
-    print();
     print(description);
-    print();
+
     testCases.forEach(async fun (key, testCase) {
         try {
             await testCase.test();
-            print ("    ", testCase.name, "........passed");
+            print ("\t", testCase.name, "........passed");
         } catch err {
             errors <- errors.append(err);
-            print ("    ", testCase.name, "........failed");
-            print ("        ", err);
+            print ("\t", testCase.name, "........failed");
+            print ("\t\t", err);
         }
     });
 
     if (errors.length == 0) {
-        print("All tests passed.");
+        print("\n\tAll tests passed.\n");
         return 0;
     }
 

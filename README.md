@@ -48,7 +48,6 @@ To create the executable use `dotnet publish` (see https://docs.microsoft.com/en
         - format-method (like sprintf)
         - support other encodings than UTF-8
     + Assert-Module: implement more than just `assert(<true/false>, <error message>)` (e.g. equal, notEqual, throws, etc.)
-    + print: fix escape characters (currently not working)
     + Buffer-Module
     + Console-Module
     + Crypto-Module

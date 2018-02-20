@@ -21,9 +21,9 @@ Unit.describe("Array Runtime Test\n", array(
     }),
 
     Unit.it("should reverse an array", fun () {
-        match (list.revert()) {
+        match (list.reverse()) {
             case (array(4, 3, 2, 1)) true;
-            default { throw "Test array.revert failed"; };
+            default { throw "Test array.reverse failed"; };
         }
     }),
 

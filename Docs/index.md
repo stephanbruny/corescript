@@ -6,6 +6,7 @@
 - [Getting Started](./getting-started.md)
 - [Types](./types.md)
 - [Variables](./variables.md)
+- [Tables](./tables.md)
 - [Functions](./functions.md)
 - [Operators](./operators.md)
 - [Control Flow](./control-flow.md)
