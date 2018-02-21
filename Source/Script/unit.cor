@@ -1,7 +1,9 @@
 function createTest(description, testCases) {
     var errors = array();
 
+    console.color(11);
     print(description);
+    console.color(7);
 
     testCases.forEach(async fun (key, testCase) {
         try {
@@ -15,11 +17,15 @@ function createTest(description, testCases) {
     });
 
     if (errors.length == 0) {
+        console.color(10);
         print("\n\tAll tests passed.\n");
+        console.color(7);
         return 0;
     }
 
+    console.color(12);
     print(errors.length, " errors in ", description);
+    console.color(7);
     return 1;
 }
 

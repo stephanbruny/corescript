@@ -10,7 +10,6 @@ open CoreScript.Interpreter.Environment
 module Runtime =
 
     let findInnerOrOuter scope name = joinMap scope.local scope.outer |> Map.tryFind name
-
     let unescapeString (str : string) =
         let builder = StringBuilder(str)
         builder
@@ -58,7 +57,7 @@ module Runtime =
     let rec nativePrint (call : Environment.NativeFunction<Environment.Value>) =
         let strings = call.arguments |> List.map (getString call)
         Console.WriteLine (strings |> String.concat "")
-        Environment.NoneVal
+        Environment.UnitVal
 
     let rec nativeTypeof (call : Environment.NativeFunction<Environment.Value>) = 
         let value = call.arguments.Head
@@ -192,6 +191,7 @@ module Runtime =
             ("Math", RuntimeModules.Math.mathTable);
             ("string", RuntimeModules.String.stringTable);
             ("process", processTable);
+            ("console", RuntimeModules.Console.consoleTable);
         ] |> Map.ofList
 
     let defaultScope = { outer = defaultRuntime; local = Map.empty }

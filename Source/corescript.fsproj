@@ -15,6 +15,7 @@
     <Compile Include="Backend/Interpreter/Runtime/Array.fs" />
     <Compile Include="Backend/Interpreter/Runtime/String.fs" />
     <Compile Include="Backend/Interpreter/Runtime/Tables.fs" />
+    <Compile Include="Backend/Interpreter/Runtime/Console.fs" />
     <Compile Include="Backend/Interpreter/Runtime/Filesystem.fs" />
     <Compile Include="Backend/Interpreter/Runtime/Http.fs" />
     <Compile Include="Backend/Interpreter/Runtime.fs" />

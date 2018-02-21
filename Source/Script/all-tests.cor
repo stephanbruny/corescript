@@ -12,9 +12,13 @@ tests.forEach(fun (i, test) {
 });
 
 if (errors > 0) {
+    console.color(12);
     print(errors, " errors found");
+    console.color(7);
     return errors;
 }
 
+console.color(10);
 print("Test suite successful");
+console.color(7);
 return 0;

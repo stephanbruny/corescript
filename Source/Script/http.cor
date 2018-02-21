@@ -43,7 +43,8 @@ http.createServer(host, fun (req, res) {
     
 });
 
-print("Server running: ", host);
+console.color(3);
+console.log("Server running: ", host);
 while(true) {
     wait(1000);
 }
