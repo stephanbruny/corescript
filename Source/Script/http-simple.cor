@@ -1,0 +1,11 @@
+let http = import 'http';
+
+let host = "http://localhost:1337/";
+
+http.createServer(host, fun (req, res) {
+    res.sendText("Hello, World!");
+});
+
+print("Server running: ", host);
+
+while (true) wait(1000);
