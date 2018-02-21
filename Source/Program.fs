@@ -5,7 +5,6 @@ open System.IO
 open CoreScript
 open CoreScript.Interpreter
 open CoreScript.Tokens
-open CoreScript.Interpreter
 
 let readFile filePath = File.ReadAllText filePath
 
@@ -13,8 +12,14 @@ let readFile filePath = File.ReadAllText filePath
 let main argv =
     match argv with
     | [||] -> 
-        printfn "no input file"
-        1
+        let rec repl (scope : Interpreter.Environment.Scope<Interpreter.Environment.Value>) =
+            Console.Write("> ");
+            let input = Console.ReadLine ()
+            let ast = CoreScript.Lexer.execute [] input 0 |> Parser.execute []
+            let (next, _) = Interpreter.eval scope (ast |> Tokens.Block)
+            repl next
+        repl Interpreter.Runtime.defaultScope
+        0
     | _ -> 
         let path = argv |> Array.last
         let source = readFile path
