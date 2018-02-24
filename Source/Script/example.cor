@@ -1,3 +1,10 @@
+let flooball = 
+    match ({ foo: 'bar', bar: 'foo', nine: 11 }) {
+        case ({foo: some, bar: some, nine: some}) "jope";
+        default "nope";
+    }
+print (flooball);
+
 let Example = import "ExampleLib.dll"
 print(Example.hello(), " ", Example.text);
 let x = "foo";

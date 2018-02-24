@@ -12,6 +12,7 @@ module Tokens =
     | Double of double
     | Name of Name
     | Bool of bool
+    | SomeAtom
     | Unit
     | None
 

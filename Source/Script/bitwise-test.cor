@@ -1,0 +1,24 @@
+let Unit = import "unit.cor";
+
+Unit.describe("Bitwise Operations Test\n", array(
+    Unit.it("should apply bitwise AND", fun() {
+        assert( (16 & 16) == 16 );
+        assert( (16 & 3) == 0 );
+    }),
+    Unit.it("should apply bitwise OR ", fun() {
+        assert( 16 | 0 == 16 );
+        assert( 16 | 4 == 20 );
+        assert( 3 | 9 == 11 );
+    }),
+
+    Unit.it("should apply bitwise XOR", fun() {
+        assert( 7 ^ 3 == 4 );
+        assert( 7 ^ 7 == 0 );
+        assert( 255 ^ 32 == 223 );
+    }),
+
+    Unit.it("should apply bitwise NOT", fun() {
+        assert( (~12) == -13 );
+        assert(( ~(-256)) == 255 );
+    }),
+));

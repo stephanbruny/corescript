@@ -17,6 +17,10 @@ module Expressions =
         | TOperator ">"
         | TOperator ">="
         | TOperator "<=" -> 6
+        | TOperator "&"
+        | TOperator "|"
+        | TOperator "~"
+        | TOperator "^" -> 4
         | TOperator "&&"
         | TOperator "||" -> 0
         | TOperator "%" -> 2
@@ -124,6 +128,7 @@ module Expressions =
                 match name with
                 | "unit" -> (Atom (Atomic.Unit), tail)
                 | "none" -> (Atom (Atomic.None), tail)
+                | "some" -> (Atom (Atomic.SomeAtom), tail)
                 | "true" -> (Atom (Atomic.Bool true), tail)
                 | "false" -> (Atom (Atomic.Bool false), tail)
                 | "operator" ->

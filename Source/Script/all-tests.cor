@@ -1,5 +1,6 @@
 let tests = array(
     fun () import "scope-test.cor",
+    fun () import "bitwise-test.cor",
     fun () import "array-test.cor",
     fun () import "string-test.cor",
     fun () import "math-test.cor",

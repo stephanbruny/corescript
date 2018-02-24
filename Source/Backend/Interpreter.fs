@@ -452,6 +452,13 @@ module Interpreter =
                     | BoolVal b -> BoolVal (not b)
                     | _ -> BoolVal (not (isTruthy a))
                 (scope, result)
+            | "~" ->
+                let (_, a) = eval scope left
+                let result =
+                    match a with
+                    | IntVal i -> IntVal (~~~i)
+                    | _ -> failwith "integer expected"
+                (scope, result)
             | _ -> (scope, UnitVal)
         | InfixOperator (op, left, right) ->
             match op with
@@ -531,6 +538,46 @@ module Interpreter =
                     let nativeCall : NativeFunction<Value> = { arguments = [a]; scope = scope; eval = eval }
                     (scope, fn nativeCall) 
                 | _ -> failwith "operator |> can only be applied to a function"
+            | "&" ->
+                let (_, a) = eval scope left
+                let (_, b) = eval scope right
+                let result = 
+                    match (a, b) with
+                    | (IntVal x, IntVal y) -> IntVal (x &&& y)
+                    | _ -> failwith "integer expected"
+                (scope, result)
+            | "|" ->
+                let (_, a) = eval scope left
+                let (_, b) = eval scope right
+                let result = 
+                    match (a, b) with
+                    | (IntVal x, IntVal y) -> IntVal (x ||| y)
+                    | _ -> failwith "integer expected"
+                (scope, result)
+            | "<<" ->
+                let (_, a) = eval scope left
+                let (_, b) = eval scope right
+                let result = 
+                    match (a, b) with
+                    | (IntVal x, IntVal y) -> IntVal (x <<< y)
+                    | _ -> failwith "integer expected"
+                (scope, result)
+            | ">>" ->
+                let (_, a) = eval scope left
+                let (_, b) = eval scope right
+                let result = 
+                    match (a, b) with
+                    | (IntVal x, IntVal y) -> IntVal (x >>> y)
+                    | _ -> failwith "integer expected"
+                (scope, result)
+            | "^" ->
+                let (_, a) = eval scope left
+                let (_, b) = eval scope right
+                let result = 
+                    match (a, b) with
+                    | (IntVal x, IntVal y) -> IntVal (x ^^^ y)
+                    | _ -> failwith "integer expected"
+                (scope, result)
             | _ -> (scope, UnitVal)
         | If (condition, ifCase, elseCase) ->
             let (_, cond) = eval scope condition

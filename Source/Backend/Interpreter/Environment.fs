@@ -45,6 +45,7 @@ module Environment =
     | Mutable of ref<Value>
     | Task of Value
     | AsyncVal of Async<Value>
+    | SomeVal
     | NoneVal 
     | UnitVal
 
@@ -105,6 +106,7 @@ module Environment =
         | Atom (Atomic.Name n) -> RefVal n
         | Atom (Atomic.None) -> NoneVal
         | Atom (Atomic.Unit) -> UnitVal
+        | Atom (Atomic.SomeAtom) -> SomeVal
         | Lambda (parameters, body) -> 
             FunVal (Option.None, (parameters |> List.map nameToString), body, scope)
         | Table list ->
@@ -164,6 +166,10 @@ module Environment =
         | (NativeFunVal _, NativeFunVal _) -> true // TODO
         | (NoneVal, NoneVal) -> true
         | (UnitVal, UnitVal) -> true
+        | (SomeVal, NoneVal) -> false
+        | (NoneVal, SomeVal) -> false
+        | (SomeVal, _) -> true
+        | (_, SomeVal) -> true
         | _ -> false
 
     let rec compareTables a b =
