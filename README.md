@@ -38,7 +38,7 @@ To create the executable use `dotnet publish` (see https://docs.microsoft.com/en
 
 ## TODOs
 
-- Bit-Operations via Operators
+- ~~Bit-Operations via Operators~~
 - file path handling for `import`
 - Runtime
     + Http 
@@ -49,7 +49,7 @@ To create the executable use `dotnet publish` (see https://docs.microsoft.com/en
         - support other encodings than UTF-8
     + Assert-Module: implement more than just `assert(<true/false>, <error message>)` (e.g. equal, notEqual, throws, etc.)
     + Buffer-Module
-    + Console-Module
+    + ~~Console-Module~~
     + Crypto-Module
     + Date-Module
     + JSON/XML-Serialization-Modules

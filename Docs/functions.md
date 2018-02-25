@@ -53,3 +53,17 @@ let lambdaDiv = fun (x, y) { return x / y; };
 ```
 
 Albeit, skipping the *name*, the same rules apply as to functions.
+
+## Table Functions (Methods)
+
+Functions defined as table values (*methods* or *table-functions*) can access any other table values, within 
+the table they are defined in, via the `this`-keyword:
+
+```corescript
+let fooTable = {
+    foo: 'bar',
+    say: fun () {
+        print(this.foo); // prints 'bar'
+    }
+}
+```
