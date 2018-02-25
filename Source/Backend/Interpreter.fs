@@ -686,7 +686,7 @@ module Interpreter =
             let (_, rightVal) = eval scope right
             match rightVal with
             | StringVal str ->
-                let (_, result) = Runtime.importModule str eval
+                let (_, result) = Runtime.importModule scope eval str 
                 (scope, result)
             | _ -> failwith "Invalid path for import"
         | Export right ->

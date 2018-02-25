@@ -39,7 +39,7 @@ To create the executable use `dotnet publish` (see https://docs.microsoft.com/en
 ## TODOs
 
 - ~~Bit-Operations via Operators~~
-- file path handling for `import`
+- ~~file path handling for `import`~~
 - Runtime
     + Http 
         - request-method fot HTTP-clients

@@ -51,7 +51,7 @@ module Lexer =
         | RegexMatch @"^(\})" [tok] -> (TCloseCurly, tok)
         | RegexMatch @"^(\'[^\']*\')" [tok] -> (TString(tok |> getStringContent), tok)
         | RegexMatch @"^(\""[^\""]*\"")" [tok] -> (TString(tok |> getStringContent), tok)
-        | RegexMatch @"^([a-zA-Z][a-zA-Z0-9_]*)" [tok] -> (TName(tok), tok)
+        | RegexMatch @"^([a-zA-Z_][a-zA-Z0-9_]*)" [tok] -> (TName(tok), tok)
         | RegexMatch @"^([\,\;\.\:])" [tok] -> (TPunct(tok), tok)
         | RegexMatch @"^([^\w\s\(\)]+)" [tok] -> (TOperator(tok), tok)
         | _ -> (TEnd, String.Empty)

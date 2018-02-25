@@ -8,7 +8,6 @@ open CoreScript
 open CoreScript.Interpreter.Environment
 
 module Runtime =
-
     let findInnerOrOuter scope name = joinMap scope.local scope.outer |> Map.tryFind name
     let unescapeString (str : string) =
         let builder = StringBuilder(str)
@@ -196,6 +195,13 @@ module Runtime =
 
     let defaultScope = { outer = defaultRuntime; local = Map.empty }
 
+    let getCurrentFilePath (scope : Scope<Value>) =
+        match findInnerOrOuter scope "__dirname" with
+        | Some (StringVal path) -> path
+        | _ -> 
+            let cmdLine = Environment.GetCommandLineArgs ()
+            cmdLine.[1] |> IO.Path.GetDirectoryName
+
     let importDll (filePath : string) =
         try
             let assembly = Assembly.LoadFile filePath
@@ -211,22 +217,24 @@ module Runtime =
         with
         | ex -> failwith (sprintf "Could not import DLL: %s" ex.Message)
         
-    let importModule (file : string) (eval : Scope<'T> -> CoreScript.Tokens.Token -> Scope<'T> * Value) =
+    let importModule (scope : Scope<Value>) (eval : Scope<Value> -> CoreScript.Tokens.Token -> Scope<Value> * Value) (file : string) =
         let maybeRuntimeModule = getRuntimeModule file
         match maybeRuntimeModule with
         | NoneVal ->
-            let cmdLine = Environment.GetCommandLineArgs ()
-            let cwd = cmdLine.[1] |> IO.Path.GetDirectoryName
+            let cwd = getCurrentFilePath scope
             let filePath = IO.Path.Combine [|cwd; file|]
             if IO.File.Exists filePath then
                 try 
+                    let fileDirName = (Path.GetDirectoryName(filePath)) |> Path.GetFullPath |> StringVal
+                    let moduleOuterScope = defaultScope.outer |> Map.add "__dirname" fileDirName
+                    let moduleScope = { outer = moduleOuterScope; local = defaultScope.local }
                     if Path.GetExtension filePath = ".dll" then
-                        (defaultScope, importDll (filePath |> Path.GetFullPath))
+                        (moduleScope, importDll (filePath |> Path.GetFullPath))
                     else
                         let fileSource = File.ReadAllText filePath
                         let scan = Lexer.execute [] fileSource 1
                         let ast = scan |> Parser.execute []
-                        eval defaultScope (ast |> Tokens.Block)
+                        eval moduleScope (ast |> Tokens.Block)
                 with
                 | ex -> failwith (sprintf "%s (in: %s)" ex.Message filePath)
             else
