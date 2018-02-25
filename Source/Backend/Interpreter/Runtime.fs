@@ -147,6 +147,7 @@ module Runtime =
         match name with
         | "filesystem" -> RuntimeModules.Filesystem.apiTable
         | "http" -> RuntimeModules.Http.httpTable
+        | "crypto" -> RuntimeModules.Crypto.cryptoTable
         | _ -> Environment.NoneVal
 
     let processEnv =
