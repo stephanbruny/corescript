@@ -158,7 +158,7 @@ fizzBuzz(11);
 fizzBuzz(15);
 
 let matched =
-    match (array(1, 2, 3).revert()) {
+    match (array(1, 2, 3).reverse()) {
         case (array(3, 2, 1)) "matched 3, 2, 1";
         case (array(1, 2, 3)) "matched 1, 2, 3";
         default "not matched";

@@ -155,6 +155,9 @@ module Expressions =
                 | "async" ->
                     let (res, rest) = expression parse tail.Head tail.Tail
                     (Async res, rest)
+                | "await" ->
+                    let (result, rest) = parse tail
+                    (Await result, rest)
                 | "fun" -> 
                     let (lookAhead, l) = tail.Head
                     if (lookAhead <> TOpenBrace) then expressionError "Expected lambda parameterts" l

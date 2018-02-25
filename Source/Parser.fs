@@ -131,9 +131,6 @@ module Parser =
                     | Block contents ->
                         ( Match(case, contents), fin )
                     | _ -> parserError (sprintf "Expected match cases but got %A" body) line
-                | "await" ->
-                    let (result, rest) = parse tail
-                    (Await result, rest)
                 | "async" ->
                     let (result, rest) = parse tail
                     match result with
