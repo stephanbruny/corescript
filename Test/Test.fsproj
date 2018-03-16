@@ -7,6 +7,9 @@
 
   <ItemGroup>
     <Compile Include="Expressions.fs" />
+    <Compile Include="ProtoVM.fs" />
+    <Compile Include="SExpression.fs" />
+    <Compile Include="CompilerClr.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

@@ -97,6 +97,14 @@ module Interpreter =
         | (x, UnitVal) -> x
         | _ -> ErrorVal (sprintf "Cannot divide %A by %A" a b)
 
+    let modulo a b =
+        match (a, b) with
+        | (IntVal x, IntVal y) -> IntVal (x % y)
+        | (DoubleVal x, IntVal y) -> DoubleVal (x % (double y))
+        | (IntVal x, DoubleVal y) -> DoubleVal ((double x) % y)
+        | (DoubleVal x, DoubleVal y) -> DoubleVal (x % y)
+        | _ -> ErrorVal (sprintf "Cannot divide %A by %A" a b)
+
     let getScopeValue (scope : Scope<Value>) name =
         match scope.local |> Map.tryFind name with
         | Some v -> v
@@ -651,8 +659,11 @@ module Interpreter =
                 match right with
                 | Atom (Name (Simple n)) -> (scope, find [n])
                 | Atom (Name (Subname n)) -> (scope, find n)
-                | Call (Atom(Name (Simple n)), argsToken) -> 
-                    let tableProperty = find [n]
+                | Call (Atom(Name propName), argsToken) -> 
+                    let tableProperty = 
+                        match propName with
+                        | Simple n -> find [n]
+                        | Subname n -> find n
                     let fnArgs = argsToken |> getCallArguments
                     match tableProperty with
                     | FunVal(fnName, parameters, body, fnScope) ->
@@ -663,9 +674,11 @@ module Interpreter =
                     | NativeFunVal fn ->
                         let nativeCall : NativeFunction<Value> = { arguments = fnArgs; scope = scope; eval = eval }
                         (scope, fn nativeCall)
-                    | _ -> failwith (sprintf "%s is not a function and cannot be applied" n)
+                    | _ -> failwith (sprintf "%A is not a function and cannot be applied" propName)
 //                | Call (Atom(Name (Subname n)), _) -> find n |> eval scope
-                | _ -> failwith "Invalid access"
+                | _ -> 
+                    printfn "%A <==> %A (%A)" left right leftValue
+                    failwith "Invalid access"
             | _ -> failwith "Cannot access a value that is not a table"
         | KeyAccess (left, right) ->
             let (_, leftValue) = eval scope left

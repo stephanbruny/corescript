@@ -5,6 +5,7 @@ open System.IO
 open CoreScript
 open CoreScript.Interpreter
 open CoreScript.Tokens
+open CoreScript.Compiler
 
 let readFile filePath = File.ReadAllText filePath
 
@@ -14,10 +15,15 @@ let main argv =
     | [||] -> 
         let rec repl (scope : Interpreter.Environment.Scope<Interpreter.Environment.Value>) =
             Console.Write("> ");
-            let input = Console.ReadLine ()
-            let ast = CoreScript.Lexer.execute [] input 0 |> Parser.execute []
-            let (next, _) = Interpreter.eval scope (ast |> Tokens.Block)
-            repl next
+            try
+                let input = Console.ReadLine ()
+                let ast = CoreScript.Lexer.execute [] input 0 |> Parser.execute []
+                let (next, _) = Interpreter.eval scope (ast |> Tokens.Block)
+                repl next
+            with 
+            | ex -> 
+                eprintfn "%s" ex.Message
+                repl scope
         repl Interpreter.Runtime.defaultScope
         0
     | _ -> 

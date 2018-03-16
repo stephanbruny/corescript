@@ -27,7 +27,7 @@ Unit.describe("Tables Runtime Test\n", array(
 
     Unit.it("should get only values from table", fun() {
         let arr = array(1, 2, 3, 4);
-        match (table.values(arr)) {
+        match (table.omit(table.values(arr), 'parallel')) {
             case ({ length: 4, 0: 1, 1: 2, 2: 3, 3: 4 }) true;
             default { throw "values failed" };
         }
@@ -35,7 +35,7 @@ Unit.describe("Tables Runtime Test\n", array(
 
     Unit.it("should map table", fun() {
         let list = table.values(array(1, 2, 3, 4));
-        let nums = table.omit(list, "length");
+        let nums = table.omit(list, "length", "parallel");
         let mult = table.map(nums, fun(k, v) { v * 2; });
         match (mult) {
             case ({ 0: 2, 1: 4, 2: 6, 3: 8 }) true;

@@ -55,6 +55,13 @@ Unit.describe("Array Runtime Test\n", array(
         }
     }),
 
+    Unit.it("should map an array in parallel", fun () {
+        match (array(2, 4, 6, 8)) {
+            case ( array(1, 2, 3, 4).parallel.map(fun (i, x) { return x * 2; }) ) true;
+            default { throw "map failed. Expected 2, 4, 6, 8"; };
+        }
+    }),
+
     Unit.it("should filter an array", fun () {
         match(array(2, 4)) {
             case ( array(1, 2, 3, 4).filter(fun(x) { return x % 2 == 0; }) ) true;

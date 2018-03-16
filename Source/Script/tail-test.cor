@@ -1,0 +1,12 @@
+let Unit = import "unit.cor";
+
+Unit.describe("Tail Recursion Test\n", array(
+    Unit.it("should not overflow", fun() {
+        function rec(n) {
+            if (n <= 1) return "done";
+            let next = n - 1;
+            return rec(next);
+        }
+        rec(200);
+    })
+));

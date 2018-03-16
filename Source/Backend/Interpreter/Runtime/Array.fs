@@ -9,14 +9,14 @@ module Array =
         if minLen > values.Length then
             failwith (sprintf "Insufficient arguments (expected: %i, given: %i)" minLen values.Length)
 
-    let foreachArray (values : Value list) (call : NativeFunction<Value>) =
+    let foreachArray iteri (values : Value list) (call : NativeFunction<Value>) =
         checkArgLength 1 call.arguments
         match call.arguments.Head with
         | Task (FunVal (_, parameters, body, fnScope))
         | FunVal (_, parameters, body, fnScope) ->
             values 
             |> Array.ofList
-            |> Array.iteri(fun idx v ->
+            |> iteri(fun idx v ->
                 let callArgs = 
                     parameters |> List.mapi(fun i p ->
                         match i with
@@ -40,14 +40,15 @@ module Array =
             let env : NativeFunction<Value> = { arguments = list; scope = call.scope; eval = call.eval }
             createArray env
         
-        let mapArray (values : Value list) (call : NativeFunction<Value>) =
+        let mapArray mapi (values : Value list) (call : NativeFunction<Value>) =
             checkArgLength 1 call.arguments
             match call.arguments.Head with
             | Task (FunVal (_, parameters, body, fnScope))
             | FunVal (_, parameters, body, fnScope) ->
                     let resultArray =
                         values 
-                        |> List.mapi(fun idx v ->
+                        |> Array.ofList
+                        |> mapi(fun idx v ->
                             let callArgs = 
                                 parameters |> List.mapi(fun i p ->
                                     match i with
@@ -62,6 +63,7 @@ module Array =
                             | ReturnVal ret -> ret
                             | _ -> resultItem
                         )
+                        |> List.ofArray
                     createArray { arguments = resultArray; scope = call.scope; eval = call.eval  }
             | _ -> failwith "[Array.forEach] function expected"
 
@@ -198,13 +200,20 @@ module Array =
 
         let tailArray (values : Value list) (_ : NativeFunction<Value>) = createSub values.Tail
         let arrayValues = call.arguments |> List.mapi(fun i v -> (IntKey i, v))
+
+        let arrayParallel = 
+            [
+                (Key "forEach", NativeFunVal (foreachArray Array.Parallel.iteri call.arguments));
+                (Key "map", NativeFunVal (mapArray Array.Parallel.mapi call.arguments));
+            ] |> Map.ofList |> TableVal
+
         let arrayMethods = 
             [
                 (Key "length", IntVal arrayValues.Length);
-                (Key "forEach", NativeFunVal (foreachArray call.arguments) );
+                (Key "forEach", NativeFunVal (foreachArray Array.iteri call.arguments) );
                 (Key "head", NativeFunVal (headArray call.arguments));
                 (Key "tail", NativeFunVal (tailArray call.arguments));
-                (Key "map", NativeFunVal (mapArray call.arguments));
+                (Key "map", NativeFunVal (mapArray Array.mapi call.arguments));
                 (Key "divide", NativeFunVal (divideArray call.arguments));
                 (Key "skip", NativeFunVal (skipArray call.arguments));
                 (Key "sort", NativeFunVal (sortArray call.arguments));
@@ -215,6 +224,7 @@ module Array =
                 (Key "prepend", NativeFunVal (prependArray call.arguments));
                 (Key "slice", NativeFunVal (sliceArray call.arguments));
                 (Key "concat", NativeFunVal (concatArray call.arguments));
+                (Key "parallel", arrayParallel);
             ] 
             |> Map.ofList
         let resultTable = Environment.joinMap (arrayValues |> Map.ofList) arrayMethods

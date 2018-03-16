@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="4.4.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Lexer.fs" />
     <Compile Include="Tokens.fs" />
     <Compile Include="Expressions.fs" />
@@ -21,6 +26,11 @@
     <Compile Include="Backend/Interpreter/Runtime/Http.fs" />
     <Compile Include="Backend/Interpreter/Runtime.fs" />
     <Compile Include="Backend/Interpreter.fs" />
+    <Compile Include="Backend/CoreRuntime.fs" />
+    <Compile Include="Backend/Compiler.fs" />
+    <Compile Include="Backend/ProtoVM.fs" />
+    <Compile Include="Backend/SExpression.fs" />
+    <Compile Include="Backend/CompilerClr.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
